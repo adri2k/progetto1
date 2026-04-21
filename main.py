@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from math import exp
-import openai
+
 
 
 WORLD_POPULATION = 8_200_000_000
