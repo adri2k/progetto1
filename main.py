@@ -3,7 +3,7 @@ from math import exp
 
 
 
-WORLD_POPULATION = 8_200_000_000
+WORLD_POPULATION = 12_200_000_000
 
 # Distribuzione molto semplificata della popolazione sui fusi orari.
 TIMEZONE_WEIGHTS = {
@@ -27,11 +27,11 @@ TIMEZONE_WEIGHTS = {
 	13: 0.01,
 }
 
-
+# La funzione gaussiana per modellare i picchi di consumo durante i pasti.
 def gaussian_peak(hour, center, width):
 	return exp(-((hour - center) ** 2) / (2 * width ** 2))
 
-
+# La probabilità di mangiare in un dato momento, basata sui picchi di colazione, pranzo e cena.
 def eating_probability(local_hour):
 	breakfast = 0.06 * gaussian_peak(local_hour, 8.0, 1.0)
 	lunch = 0.12 * gaussian_peak(local_hour, 13.0, 1.2)
