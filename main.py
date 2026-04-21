@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 from math import exp
 
-
+# commento in main
 
 WORLD_POPULATION = 12_200_000_000
 
