@@ -5,6 +5,8 @@ from math import exp
 
 WORLD_POPULATION = 12_200_000_000
 
+#mod 1
+
 # Distribuzione molto semplificata della popolazione sui fusi orari.
 TIMEZONE_WEIGHTS = {
 	-5: 0.04,
