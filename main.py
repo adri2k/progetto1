@@ -40,6 +40,14 @@ def eating_probability(local_hour):
 	return min(breakfast + lunch + dinner + snack, 0.35)
 
 
+# La probabilità di dormire è più alta nelle ore notturne e minima durante il giorno.
+def sleeping_probability(local_hour):
+	night_sleep = 0.72 * gaussian_peak(local_hour, 2.0, 2.6)
+	late_sleep = 0.45 * gaussian_peak(local_hour, 23.0, 1.8)
+	early_morning = 0.28 * gaussian_peak(local_hour, 5.0, 1.8)
+	return min(night_sleep + late_sleep + early_morning, 0.92)
+
+
 def estimated_people_eating_now(current_utc=None):
 	if current_utc is None:
 		current_utc = datetime.now(timezone.utc)
@@ -55,11 +63,30 @@ def estimated_people_eating_now(current_utc=None):
 	return int(estimated_people)
 
 
+def estimated_people_sleeping_now(current_utc=None):
+	if current_utc is None:
+		current_utc = datetime.now(timezone.utc)
+
+	estimated_people = 0
+
+	for utc_offset, weight in TIMEZONE_WEIGHTS.items():
+		local_time = current_utc + timedelta(hours=utc_offset)
+		local_hour = local_time.hour + (local_time.minute / 60)
+		people_in_timezone = WORLD_POPULATION * weight
+		estimated_people += people_in_timezone * sleeping_probability(local_hour)
+
+	return int(estimated_people)
+
+
 people_eating_now = estimated_people_eating_now()
+people_sleeping_now = estimated_people_sleeping_now()
 
 print("Ciao a tutti")
 print("Ma solo a quelli bravi")
 print()
 print("Stima simulata delle persone nel mondo che stanno mangiando ora:")
 print(f"{people_eating_now:,}".replace(",", "."))
+print()
+print("Stima simulata delle persone nel mondo che stanno dormendo ora:")
+print(f"{people_sleeping_now:,}".replace(",", "."))
 
