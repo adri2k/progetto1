@@ -15,4 +15,8 @@ response = client.chat.completions.create(
   ]
 )
 
+# Stampa la risposta generata da OpenAI
 print(response.choices[0].message.content)
+
+# Stampami i token usati 
+print(f"Token usati: {response.usage.total_tokens}")
